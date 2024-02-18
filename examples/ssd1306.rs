@@ -1,5 +1,9 @@
-//! Adapted from [ssd1306/examples](https://github.com/jamwaffles/ssd1306/tree/master/examples).
+//! Adapted from
+//! [ssd1306/examples](https://github.com/jamwaffles/ssd1306/tree/master/examples).
 //!
+//! ## µC Connections
+//!
+//! - An SSD1306 with SCL at µC pin B6 & SDA at µC pin B7
 
 #![no_std]
 #![no_main]
@@ -24,7 +28,7 @@ use stm32f1xx_hal as hal;
 
 #[entry]
 fn main() -> ! {
-    let _cp = cortex_m::Peripherals::take().unwrap();
+    let mut cp = cortex_m::Peripherals::take().unwrap();
     let dp = pac::Peripherals::take().unwrap();
 
     let mut flash = dp.FLASH.constrain();
@@ -40,8 +44,14 @@ fn main() -> ! {
 
     let mut gpiob = dp.GPIOB.split();
 
-    let scl = gpiob.pb8.into_alternate_open_drain(&mut gpiob.crh);
-    let sda = gpiob.pb9.into_alternate_open_drain(&mut gpiob.crh);
+    cp.DCB.enable_trace();
+    cp.DWT.enable_cycle_counter();
+
+    // let scl = gpiob.pb8.into_alternate_open_drain(&mut gpiob.crh);
+    // let sda = gpiob.pb9.into_alternate_open_drain(&mut gpiob.crh);
+
+    let scl = gpiob.pb6.into_alternate_open_drain(&mut gpiob.crl);
+    let sda = gpiob.pb7.into_alternate_open_drain(&mut gpiob.crl);
 
     let i2c = BlockingI2c::i2c1(
         dp.I2C1,

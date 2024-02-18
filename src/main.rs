@@ -16,8 +16,8 @@ use cortex_m_rt::{entry, exception, ExceptionFrame};
 
 #[entry]
 fn main() -> ! {
-    #[allow(unused_variables)]
-    let cp = cortex_m::Peripherals::take().unwrap();
+    #[allow(unused_variables, unused_mut)]
+    let mut cp = cortex_m::Peripherals::take().unwrap();
     let dp = pac::Peripherals::take().unwrap();
 
     let mut flash = dp.FLASH.constrain();
