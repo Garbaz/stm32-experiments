@@ -1,5 +1,5 @@
 //! Adapted from [ssd1306/examples](https://github.com/jamwaffles/ssd1306/tree/master/examples).
-//! 
+//!
 
 #![no_std]
 #![no_main]
@@ -30,7 +30,11 @@ fn main() -> ! {
     let mut flash = dp.FLASH.constrain();
     let rcc = dp.RCC.constrain();
 
-    let clocks = rcc.cfgr.freeze(&mut flash.acr);
+    let clocks = rcc
+        .cfgr
+        .use_hse(8.MHz())
+        .sysclk(48.MHz())
+        .freeze(&mut flash.acr);
 
     let mut afio = dp.AFIO.constrain();
 

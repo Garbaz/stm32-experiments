@@ -1,11 +1,4 @@
-//! blinky timer using interrupts on TIM2
-//!
-//! This assumes that a LED is connected to pc13 as is the case on the blue pill board.
-//!
-//! Please note according to RM0008:
-//! "Due to the fact that the switch only sinks a limited amount of current (3 mA), the use of
-//! GPIOs PC13 to PC15 in output mode is restricted: the speed has to be limited to 2MHz with
-//! a maximum load of 30pF and these IOs must not be used as a current source (e.g. to drive a LED)"
+//! An empty baseline project.
 
 #![no_main]
 #![no_std]
@@ -17,13 +10,35 @@ use stm32f1xx_hal as hal;
 #[allow(unused_imports)]
 use hal::prelude::*;
 
-use cortex_m::asm::wfi;
+use hal::pac;
+
 use cortex_m_rt::{entry, exception, ExceptionFrame};
 
 #[entry]
 fn main() -> ! {
+    #[allow(unused_variables)]
+    let cp = cortex_m::Peripherals::take().unwrap();
+    let dp = pac::Peripherals::take().unwrap();
+
+    let mut flash = dp.FLASH.constrain();
+    let rcc = dp.RCC.constrain();
+
+    let clocks = rcc.cfgr.use_hse(8.MHz()).freeze(&mut flash.acr);
+
+    #[allow(unused_variables, unused_mut)]
+    let mut afio = dp.AFIO.constrain();
+
+    let mut gpioc = dp.GPIOC.split();
+
+    let mut led = gpioc.pc13.into_push_pull_output(&mut gpioc.crh);
+
+    let mut delay = cp.SYST.delay(&clocks);
+
     loop {
-        wfi();
+        led.set_high();
+        delay.delay_ms(250u32);
+        led.set_low();
+        delay.delay_ms(250u32);
     }
 }
 
