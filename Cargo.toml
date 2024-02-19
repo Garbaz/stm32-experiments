@@ -17,14 +17,17 @@ cortex-m = "0.7.7"
 cortex-m-rt = "0.7.3"
 cortex-m-semihosting = "0.5.0"
 embedded-graphics = "0.8.1"
-# embedded-hal = "1.0.0"
+heapless = "0.8.0"
+matrixmultiply = { version = "0.3.8", default-features = false }
 mpu6050 = "0.1.6"
+nalgebra = { version = "0.31.4", default-features = false, features = [
+    "macros",
+    "libm",
+] }
 nb = "1.1.0"
-# panic-halt = "0.2.0"
 panic-semihosting = "0.6.0"
 ssd1306 = "0.8.4"
 stm32f1xx-hal = { version = "0.10.0", features = ["rt", "stm32f103", "medium"] }
-# ttp229 = "0.0.1"
 
 [profile.dev]
 incremental = false

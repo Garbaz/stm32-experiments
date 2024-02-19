@@ -1,6 +1,7 @@
 #![no_std]
 
-use core::{fmt, str};
+pub mod shape3d;
+pub mod mpu;
 
 use hal::{
     afio::MAPR,
@@ -143,64 +144,4 @@ pub fn i2c2(
         ADDR_TIMEOUT_US,
         DATA_TIMEOUT_US,
     )
-}
-
-
-/// A fixed size (no `std` and no allocation) buffer to write to with
-/// [`core::fmt::write`]. Useful for creating a formatted `&str` at runtime
-/// without allocation. 
-/// 
-/// ## Example
-/// 
-/// ```rs
-/// let mut wb: WriteBuffer<128> = WriteBuffer::new();
-/// writeln!(wb, "Hello World!").unwrap();
-/// 
-/// assert_eq!(wb.as_str(), "Hello World!\n");
-/// ```
-pub struct WriteBuffer<const N: usize> {
-    buffer: [u8; N],
-    cursor: usize,
-}
-
-impl<const N: usize> WriteBuffer<N> {
-    pub fn new() -> Self {
-        Self {
-            buffer: [0; N],
-            cursor: 0,
-        }
-    }
-
-    /// Reset the buffer's cursor back to 0.
-    pub fn clear(&mut self) {
-        self.cursor = 0;
-    }
-    
-    pub fn as_str(&self) -> &str {
-        unsafe { core::str::from_utf8_unchecked(&self.buffer[..self.cursor]) }
-    }
-
-}
-
-impl<const N: usize> fmt::Write for WriteBuffer<N> {
-    fn write_str(&mut self, s: &str) -> core::fmt::Result {
-        let s = s.as_bytes();
-        let end = self.cursor + s.len();
-
-        if end >= N {
-            return Err(fmt::Error);
-        }
-
-        self.buffer[self.cursor..end].copy_from_slice(s);
-
-        self.cursor = end;
-
-        Ok(())
-    }
-}
-
-impl<const N: usize> Default for WriteBuffer<N> {
-    fn default() -> Self {
-        Self::new()
-    }
 }
