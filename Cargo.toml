@@ -38,3 +38,4 @@ opt-level = "s"
 codegen-units = 1
 debug = true
 lto = true
+opt-level = "s"
