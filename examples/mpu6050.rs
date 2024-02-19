@@ -30,7 +30,7 @@ use panic_semihosting as _;
 use ssd1306::{
     prelude::*, rotation::DisplayRotation, size::DisplaySize128x64, I2CDisplayInterface, Ssd1306,
 };
-use stm32_test::{
+use stm32_experiments::{
     i2c1, i2c2,
     shape3d::{ARROW, CUBOID},
 };
