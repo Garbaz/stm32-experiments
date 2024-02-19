@@ -27,3 +27,6 @@ In one terminal run `openocd` (it should say `Listening on port 3333 for gdb con
 
 In another terminal run `cargo run --release` for blinky, or `cargo run --release --example={...}` for any of the programs in [examples](/examples/).
 
+## Pictures
+
+![mpu6050](mpu6050.jpg)
