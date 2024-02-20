@@ -25,7 +25,9 @@ Connect the ST-LINK v2 (if you have a different programmer, edit [openocd.cfg](/
 
 In one terminal run `openocd` (it should say `Listening on port 3333 for gdb connections`).
 
-In another terminal run `cargo run --release` for blinky, or `cargo run --release --example={...}` for any of the programs in [examples](/examples/).
+In another terminal run `cargo run --release --example={...}` for any of the programs in [examples](/examples/).
+
+Inside gdb you can use `rr` to rebuild & load the current example if you changed anything.
 
 ## Pictures
 
