@@ -29,4 +29,6 @@ In another terminal run `cargo run --release` for blinky, or `cargo run --releas
 
 ## Pictures
 
+### [MPU6050 & SSD1306](/experiments/mpu6050.rs)
+
 ![mpu6050](mpu6050.jpg)
